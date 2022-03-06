@@ -7,6 +7,7 @@ from draftclass import ParseScoreSet
 import pickle
 import logging
 #environment is bs_sel
+#https://www.youtube.com/channel/UC8tgRQ7DOzAbn9L7zDL8mLg
 
 def main():
     level = logging.DEBUG
@@ -23,10 +24,11 @@ def main():
     soup = BeautifulSoup(html_doc, "html.parser")
 
     pss = ParseScoreSet(soup)
-    pss.get_score_set()
-    pss.return_score_set()
-    pss.return_page_results_dataframe()
-    pss.clean_page_results_dataframe()
+    # pss.get_score_set()
+    # pss.return_score_set()
+    # pss.return_page_results_dataframe()
+    # pss.clean_page_results_dataframe()
+    pss.page_scrape()
 
 if __name__ == '__main__': 
     main()
