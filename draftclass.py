@@ -7,6 +7,7 @@ import pandas as pd
 import pickle
 import logging
 import time
+import sqlite3
 
 class ParseScoreSet:
     def __init__(self, soup):
@@ -64,8 +65,9 @@ class ParseScoreSet:
         
         visitor_df['Visitor Name'] = visitor_df['Visitor Name'].apply(lambda x: self.strip_numbers(x))
         home_df['Home Name'] = home_df['Home Name'].apply(lambda x: self.strip_numbers(x))         
-        full_df = visitor_df.join(home_df) 
-        
+        full_df = visitor_df.join(home_df)
+        self.full_df = full_df[full_df['Home Score'] != '']
+
                 
         #pickle.dump(visitor_df, open("visitor.p", "wb"))
         #pickle.dump(home_df, open("home.p", "wb"))
@@ -79,5 +81,10 @@ class ParseScoreSet:
         self.return_page_results_dataframe()
         self.clean_page_results_dataframe()
     
+    def db_insert(self, db_name='CollegeBaseball.db', table_name): 
+        
+    engine = sqlalchemy.create_engine(f'sqlite:///{db_name}')
+
+    self.full_df.to_sql(table_name, engine, if_exists='append', index=False)
 
 
